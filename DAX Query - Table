@@ -1,0 +1,7 @@
+EVALUATE
+	SELECTCOLUMNS(
+		INFO.TABLES(),
+		"TableID", [ID],
+		"Table", [Name],
+		"LastModifiedTime", [ModifiedTime]
+	)
