@@ -1,0 +1,19 @@
+DEFINE
+    VAR _tables =
+        SELECTCOLUMNS ( INFO.TABLES (), "TableID", [ID], "TableName", [Name] )
+    VAR _columns =
+        FILTER ( INFO.COLUMNS (), [Type] <> 3 )
+    VAR _result =
+        SELECTCOLUMNS (
+            NATURALINNERJOIN ( _columns, _tables ),
+            "Table", [TableName],
+            "Column Name", IF ( ISBLANK ( [ExplicitName] ), [SourceColumn], [ExplicitName] ),
+            "Description", [Description],
+            "Data Category", [DataCategory],
+            "Column Type", SWITCH ( [Type], 1, "Data column", 2, "Calculated column", [Type] ),
+            "DAX formula", [Expression],
+            "FormatString", [FormatString]
+        )
+
+EVALUATE
+_result
