@@ -1,0 +1,25 @@
+EVALUATE
+VAR _measures =
+    SELECTCOLUMNS (
+        INFO.MEASURES (),
+        "Measure", [Name],
+        "Desc", [Description],
+        "DAX formula", [Expression],
+        "TableID", [TableID],
+        "Formatstring", [FormatString],
+        "DisplayFolder", [DisplayFolder]
+    )
+VAR _tables =
+    SELECTCOLUMNS ( INFO.TABLES (), "TableID", [ID], "Table", [Name] )
+VAR _combined =
+    NATURALLEFTOUTERJOIN ( _measures, _tables )
+RETURN
+    SELECTCOLUMNS (
+        _combined,
+        "Home Table", [Table],
+        "Measure", [Measure],
+        "Desc", [Desc],
+        "DAX Formula", [DAX formula],
+        "Formatstring", [Formatstring],
+        "DisplayFolder", [DisplayFolder]
+    )
